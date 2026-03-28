@@ -1,0 +1,38 @@
+syntax = "proto3";
+
+package guava.prototype.bridge.v1;
+
+option java_multiple_files = true;
+option java_package = "com.guava.prototype.bridge.proto";
+option java_outer_classname = "ChatBridgeProto";
+
+service LlmBridgeService {
+  rpc StreamReply(PromptRequest) returns (stream ModelEvent);
+  rpc Chat(stream ClientEvent) returns (stream ModelEvent);
+}
+
+message PromptRequest {
+  string session_id = 1;
+  string prompt = 2;
+}
+
+message ClientEvent {
+  string session_id = 1;
+  string message = 2;
+  bool end_of_turn = 3;
+}
+
+message ModelEvent {
+  string session_id = 1;
+  EventKind kind = 2;
+  string delta = 3;
+  string full_text = 4;
+  string event_id = 5;
+}
+
+enum EventKind {
+  EVENT_KIND_UNSPECIFIED = 0;
+  EVENT_KIND_MESSAGE_START = 1;
+  EVENT_KIND_TOKEN = 2;
+  EVENT_KIND_MESSAGE_END = 3;
+}

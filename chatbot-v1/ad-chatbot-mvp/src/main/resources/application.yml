@@ -1,0 +1,14 @@
+spring:
+  application:
+    name: ad-chatbot-mvp
+
+server:
+  port: 8080
+
+app:
+  qdrant:
+    url: http://localhost:6333
+    collection: ad_rules
+    vector-size: 8
+    top-k: 3
+    seed-on-startup: true
